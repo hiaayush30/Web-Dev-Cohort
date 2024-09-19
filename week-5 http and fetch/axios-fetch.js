@@ -1,3 +1,4 @@
+//fetch api and axios
 const axios =require("axios");
 
 async function yo(){
