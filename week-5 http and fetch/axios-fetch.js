@@ -5,7 +5,8 @@ async function yo(){
     const response=await fetch("https://httpdump.app/dumps/437ace7f-cfa2-411a-aa9d-424c04fc7285",{
         method:"POST",
         headers:{
-            "Authorization":"Bearer hello_from_fetch"
+            "Authorization":"Bearer hello_from_fetch",
+            "X-Yo":"hello there!"
         },
         body:JSON.stringify({
             username:"Aayush",
@@ -19,6 +20,9 @@ async function yo(){
 //in axios we don't have to specify if we are returning json/text etc
 //axios takes the link,body,headers(or sth else) as arguments in that order respectively
 //*but in GET you cant send the body so it cant be in the argument just the link and rest like headers
+
+//to use axios in html
+/* <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script> */
 async function yo2(){
     const response=await axios.post("https://httpdump.app/dumps/437ace7f-cfa2-411a-aa9d-424c04fc7285/bat",{
             username:"Aayush",
@@ -26,7 +30,8 @@ async function yo2(){
     },{
         headers:{
             "Authorization":"Bearer hello_from_axios"
-        }
+        },
+        data:{}
     });
     console.log(response.data.todos)
 }
