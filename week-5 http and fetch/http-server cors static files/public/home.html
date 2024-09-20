@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcuate Sum</title>
+</head>
+
+<body>
+        <div>Enter value for a :<input class="a" type="number" name="a" /></div>
+        <div>Enter value for b :<input class="b" type="number" name="b" /></div>
+        <button onclick="submit()">Calculate</button>
+        <div class="result"></div>
+    <script>
+        //npx server -serves a folder over http
+        const submit = () => {
+          const a=document.querySelector('.a').value;
+          const b=document.querySelector('.b').value;
+          fetch(`http://localhost:3000/add?a=${a}&b=${b}`)
+          .then(async(res)=>{
+            const data=await res.json()
+            if(data.msg) alert('Enter correct data!');
+            else{
+            const result=document.createElement('h1');
+            result.innerText=data;
+            document.querySelector('.result').innerHTML='';
+            document.querySelector('.result').appendChild(result);
+            }
+        })
+        }
+    </script>
+</body>
+
+</html>

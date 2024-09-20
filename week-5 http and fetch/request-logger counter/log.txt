@@ -1,0 +1,10 @@
+Method: GET
+Time: Fri, 20 Sep 2024 11:02:46 GMT
+HostName:localhost
+Route: /
+
+Method: GET
+Time: Fri, 20 Sep 2024 11:03:03 GMT
+HostName:localhost
+Route: /hey%20ya
+
