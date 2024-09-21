@@ -1,0 +1,5 @@
+commander.js     => creating a cli 
+uniqid.js        => generating unique ids
+draggable.js     => creating draggable components
+bcrypt           => to salt,verify passwords
+toastify         => floating alerts in React
