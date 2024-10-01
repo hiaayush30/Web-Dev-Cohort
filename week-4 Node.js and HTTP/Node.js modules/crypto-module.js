@@ -19,6 +19,8 @@ crypto.randomBytes(16, (err, buf) => {
 let randBytes=crypto.randomBytes(16);
 
 //create hash
+// Hashing is the process of converting data into a fixed-size string of characters,
+// typically for purposes like data integrity, password security, or digital signatures.
 let hash = crypto
     .createHash('sha256')
     .update('your message')

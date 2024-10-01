@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend for Auth</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+    <div class="signup" style="margin: 10px;">
+        <div>Signup</div>
+        <input class="user1" name="username" type="text" placeholder="Username">
+        <input class="pass1" name="password" type="text" placeholder="Password">
+        <button type="submit" onclick="signup()">Signup</button>
+    </div>
+    <div class="signin" style="margin: 10px;">
+        <div>Signin</div>
+        <input class="user2" name="username" type="text" placeholder="Username">
+        <input class="pass2" name="password" type="text" placeholder="Password">
+        <button type="submit" onclick="signin()">Signin</button>
+    </div>
+    <div class="info" style="margin: 10px;">
+        User Information:
+        <span id="information"></span>
+    </div>
+    <button onclick="logout()" style="margin: 10px;">Logout</button>
+    <script>
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch('http://localhost:3000/me', {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    token
+                }
+            }).then(async res => {
+                const { username, password } = await res.json();
+                const info = document.querySelector('#information');
+                const div = document.createElement('div');
+                div.innerHTML = `<div>Username:${username}</div><div>Password:${password}</div>`;
+                info.appendChild(div);
+                document.querySelector('.signup').style.display = "none"
+                document.querySelector('.signin').style.display = "none"
+            })
+        }
+        
+        const signup = () => {
+            const username = document.querySelector('.user1').value
+            const password = document.querySelector('.pass1').value
+            try {
+                fetch('http://localhost:3000/signup', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        username, password
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(async res => {
+                    const data = await res.json();
+                    console.log(data);
+                    alert('you are signed up!');
+                })
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        
+        const signin = async () => {
+            const username = document.querySelector('.user2').value
+            const password = document.querySelector('.pass2').value
+            try {
+                fetch('http://localhost:3000/signin', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        username, password
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(async res => {
+                    if (res.ok) {
+                        alert('you are signed in!');
+                        const { token } = await res.json();
+                        localStorage.setItem('token', token);
+                        fetch('http://localhost:3000/me', {
+                            method: 'get',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                token
+                            }
+                        }).then(async res => {
+                            const { username, password } = await res.json();
+                            const info = document.querySelector('#information');
+                            const div = document.createElement('div');
+                            div.innerHTML = `<div>Username:${username}</div><div>Password:${password}</div>`;
+                            info.appendChild(div);
+                            document.querySelector('.signup').style.display = "none"
+                            document.querySelector('.signin').style.display = "none"
+                        })
+                    } else alert('invalid credentials!')
+                })
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        const logout = () => {
+            const info = document.querySelector('#information');
+            localStorage.clear('token');
+            info.innerHTML = '';
+            alert('you are logged out');
+            document.querySelector('.signup').style.display = "block"
+            document.querySelector('.signin').style.display = "block"
+        }
+    </script>
+</body>
+
+</html>
